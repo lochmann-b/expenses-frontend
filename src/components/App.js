@@ -6,11 +6,11 @@ import Dashboard from './Dashboard'
 import Component404 from './Component404'
 import { loadAccounts } from '../actions/accounts'
 import Loading from './Loading'
+import Account from './Account'
 
 class App extends React.Component {
     render() {
         const { loading, authentication, accounts=[] } = this.props
-        console.log(`accounts=${accounts}`)
         return (
             <Router>
                 <Fragment>
@@ -22,6 +22,7 @@ class App extends React.Component {
                                 : <div>
                                     <Switch>
                                         <Route exact path='/' render={props => <Dashboard accounts={accounts}/>}  />
+                                        <Route exact path='/accounts/:id' component={Account}/>}  />
                                         <Route component={Component404} />
                                     </Switch>
                                 </div>

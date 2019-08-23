@@ -1,6 +1,7 @@
 import React from 'react'
 import { formatCents } from '../util'
-import { Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { Table, TableHead, TableRow, TableCell, TableBody, Link } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom'
 
 const AccountsOverview = (props) => {
     const { accounts } = props
@@ -18,7 +19,7 @@ const AccountsOverview = (props) => {
                             {account.id}
                         </TableCell>
                         <TableCell>
-                            {account.name}
+                            <Link component={RouterLink} to={`/accounts/${account.id}`}>{account.name}</Link>
                         </TableCell>
                         <TableCell>
                             {account.startDate}
