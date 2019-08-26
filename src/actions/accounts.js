@@ -1,9 +1,17 @@
 import { startLoading, loadingDone } from "./loading";
-import { getAccounts, saveAccount } from "../api/api";
+import { getAccounts, saveAccount, _deleteAccount } from "../api/api";
 
 export const RECEIVE_ACCOUNTS = 'RECEIVE_ACCOUNTS'
 export const CREATE_ACCOUNT = 'CREATE_ACCOUNT'
+export const DELETE_ACCOUNT = 'DELETE_ACCOUNT'
 
+
+export function deleteAccount(accountId) {
+    return {
+        type: DELETE_ACCOUNT,
+        accountId
+    }
+}
 
 export function receiveAccounts(accounts) {
     return {
@@ -19,7 +27,22 @@ export function createAccount(account) {
     }
 }
 
-export function createAccountAsync(token, account) {
+export function deleteAccountAsync(token, account){
+    return dispatch => {
+        dispatch(startLoading())
+        try {
+            const res = _deleteAccount(token, account)            
+            if (!(res instanceof Error)){
+                dispatch(deleteAccount(account))
+            }
+            dispatch(loadingDone())
+        } catch (e) {
+            dispatch(loadingDone())
+        }            
+    }
+}
+
+export function createAccountAsync(token, account) {    
     return dispatch => {
         dispatch(startLoading())
         saveAccount(token, account)
