@@ -1,6 +1,6 @@
 import React from 'react'
 import { formatCents } from '../util'
-import { Table, TableHead, TableRow, TableCell, TableBody, Link } from '@material-ui/core';
+import { Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 
 const MovementsOverview = (props) => {
     const { movements } = props

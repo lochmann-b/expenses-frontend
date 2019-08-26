@@ -6,11 +6,11 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const BasePage = props => {
     const classes = useStyles()
-    const { children, title} = props
+    const { children, title, logout} = props
     return (
         <Container maxWidth="md" >
             <CssBaseline />
-            <ExAppBar title={title} />
+            <ExAppBar title={title} logout={logout} />
             <Paper className={classes.root}>
                 {children}
             </Paper>

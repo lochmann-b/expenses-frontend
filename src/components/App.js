@@ -7,6 +7,7 @@ import Component404 from './Component404'
 import { loadAccounts } from '../actions/accounts'
 import Loading from './Loading'
 import Account from './Account'
+import AddAccount from './AddAccount';
 
 class App extends React.Component {
     render() {
@@ -22,6 +23,7 @@ class App extends React.Component {
                                 : <div>
                                     <Switch>
                                         <Route exact path='/' render={props => <Dashboard accounts={accounts}/>}  />
+                                        <Route exact path='/addAccount' component={AddAccount}/>}  />
                                         <Route exact path='/accounts/:id' component={Account}/>}  />
                                         <Route component={Component404} />
                                     </Switch>

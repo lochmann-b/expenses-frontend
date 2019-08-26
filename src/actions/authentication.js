@@ -3,11 +3,18 @@ import { getToken, getAccounts } from '../api/api'
 import { receiveAccounts } from './accounts';
 
 export const RECEIVE_TOKEN = 'RECEIVE_TOKEN'
+export const LOGOUT = 'LOGOUT'
 
 export function receiveToken(token) {
     return {
         type: RECEIVE_TOKEN,
         token
+    }
+}
+
+export function logout(){
+    return {
+        type:LOGOUT,        
     }
 }
 

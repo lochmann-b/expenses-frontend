@@ -14,8 +14,8 @@ const Account = props => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const id = ownProps.match.params.id
-    const account = state.accounts.find(acccount => acccount.id == id)
+    const id = parseInt(ownProps.match.params.id)
+    const account = state.accounts.find(acccount => acccount.id === id)
     return {
         account
     }
