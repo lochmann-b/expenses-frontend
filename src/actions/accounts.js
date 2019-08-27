@@ -78,10 +78,10 @@ export function updateAccountAsync(account) {
     }
 }
 
-export function loadAccounts(authentication) {
-    return dispatch => {
+export function loadAccounts() {
+    return (dispatch, getState) => {
         dispatch(startLoading())
-        getAccounts(authentication)
+        getAccounts(getState().authentication)
             .then(accounts => dispatch(receiveAccounts(accounts)))
             .then(dispatch(loadingDone()))
             .catch(e => {

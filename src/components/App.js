@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import LoginView from './LoginView';
 import Dashboard from './Dashboard'
 import Component404 from './Component404'
-import { loadAccounts } from '../actions/accounts'
 import Loading from './Loading'
 import Account from './Account'
 import ManageAccount from './ManageAccount';
@@ -39,12 +38,6 @@ class App extends React.Component {
     }
 }
 
-function mapDispatchToProps(dispatch){
-    return {
-        loadAccounts: authentication => dispatch(loadAccounts(authentication))
-    }
-}
-
 function mapSteteToProps({ loading, authentication, accounts }) {
     return {
         loading,
@@ -53,4 +46,4 @@ function mapSteteToProps({ loading, authentication, accounts }) {
     }
 }
 
-export default connect(mapSteteToProps, mapDispatchToProps)(App)
+export default connect(mapSteteToProps)(App)

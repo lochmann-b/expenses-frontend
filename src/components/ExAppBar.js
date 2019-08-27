@@ -5,27 +5,30 @@ import { logout } from '../actions/authentication'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { Button, IconButton, Fab } from '@material-ui/core/';
+import { Button, IconButton } from '@material-ui/core/';
 import HomeIcon from '@material-ui/icons/Home'
-import AddIcon from '@material-ui/icons/Add'
+import RefreshIcon from '@material-ui/icons/Refresh'
 
 import { withRouter } from 'react-router-dom'
+import { loadAccounts } from '../actions/accounts';
 
 const ExAppBar = props => {
   const classes = useStyles()
-  const { title, history, isAuthenticated, onLogout, onAdd } = props
+  const { title, history, isAuthenticated, onLogout, onRefresh} = props
 
   return (
     <AppBar position="static">
       <Toolbar>
         <IconButton color="inherit" onClick={() => history.push('/')}><HomeIcon /></IconButton>
         <Typography variant="h6" align="center" className={classes.title}>{title}</Typography>
-        {onAdd && <Fab size="small" color="secondary" onClick={e => onAdd()}><AddIcon /></Fab>}
+        <IconButton color="inherit" onClick={onRefresh}><RefreshIcon /></IconButton>
         {isAuthenticated && <Button color="inherit" onClick={() => { onLogout(); history.push('/') }}>Logout</Button>}
       </Toolbar>
     </AppBar>
   )
 }
+
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,7 +51,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLogout: () => dispatch(logout())
+    onLogout: () => dispatch(logout()),
+    onRefresh: () => dispatch(loadAccounts())
   }
 }
 

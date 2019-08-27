@@ -1,11 +1,12 @@
 import { RECEIVE_ACCOUNTS, CREATE_ACCOUNT, DELETE_ACCOUNT, UPDATE_ACCOUNT } from "../actions/accounts";
 import { CREATE_MOVEMENT, DELETE_MOVEMENT, UPDATE_MOVEMENT } from '../actions/movements'
+import { sortMovements } from '../util'
 
 export default function accounts(state = [], action) {
     switch (action.type) {
         case RECEIVE_ACCOUNTS:
             const accounts = [...action.accounts.sort((a, b) => a.id - b.id)]
-            accounts.forEach(a => a.movements.sort((a, b) => new Date(b.date) - new Date(a.date)))
+            accounts.forEach(a => a.movements.sort(sortMovements))
             return accounts
         case CREATE_ACCOUNT:
             return [...state, action.account].sort((a, b) => a.id - b.id)
@@ -19,7 +20,7 @@ export default function accounts(state = [], action) {
             if (account) {
                 const newAccount = {
                     ...account,
-                    movements: [...account.movements, { ...action.movement }].sort((a, b) => new Date(b.date) - new Date(a.date))
+                    movements: [...account.movements, { ...action.movement }].sort(sortMovements)
                 }
                 return state.map(a => a.id === accountId ? newAccount : a)
             }
