@@ -16,7 +16,6 @@ const Dashboard = props => {
         <BasePage title='Dashboard'>
             <AccountsOverview accounts={accounts} />
             <Fab onClick={e => history.push('/addAccount')} className={classes.fab} size="small" color="secondary"><AddIcon /></Fab>
-
         </BasePage>)
 
 }

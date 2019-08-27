@@ -2,12 +2,12 @@ import React from 'react'
 import { Dialog, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
 
 const DeleteDialog = props => {
-    const { item, onDelete, open, setOpen } = props
+    const { message, onDelete, open, setOpen } = props
 
     return (<Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
         <DialogContent>
             <DialogContentText id="alert-dialog-description">
-                {`Really delete account ${item}?`}
+                { message }
             </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
 import { createAccountAsync, updateAccountAsync } from '../actions/accounts';
 
-class AddAccount extends React.Component {
+class ManageAccount extends React.Component {
 
     state = {
         startDate: this.props.account ? this.props.account.startDate : '',
@@ -107,4 +107,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withRouter(AddAccount)))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withRouter(ManageAccount)))

@@ -7,7 +7,8 @@ import Component404 from './Component404'
 import { loadAccounts } from '../actions/accounts'
 import Loading from './Loading'
 import Account from './Account'
-import AddAccount from './AddAccount';
+import ManageAccount from './ManageAccount';
+import ManageMovement from './ManageMovement';
 
 class App extends React.Component {
     render() {
@@ -23,9 +24,11 @@ class App extends React.Component {
                                 : <div>
                                     <Switch>
                                         <Route exact path='/' render={props => <Dashboard accounts={accounts}/>}  />
-                                        <Route exact path='/editAccount/:id' component={AddAccount}/>}  />
-                                        <Route exact path='/addAccount' component={AddAccount}/>}  />                                        
+                                        <Route exact path='/editAccount/:id' component={ManageAccount}/>}  />
+                                        <Route exact path='/addAccount' component={ManageAccount}/>}  />                                        
                                         <Route exact path='/accounts/:id' component={Account}/>}  />
+                                        <Route exact path='/accounts/:accountId/editMovement/:id' component={ManageMovement}/>}  />
+                                        <Route exact path='/accounts/:accountId/addMovement' component={ManageMovement}/>}  />
                                         <Route component={Component404} />
                                     </Switch>
                                 </div>

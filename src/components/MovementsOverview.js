@@ -1,6 +1,6 @@
 import React from 'react'
-import { formatCents } from '../util'
 import { Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import MovementRow from './MovementRow';
 
 const MovementsOverview = (props) => {
     const { movements } = props
@@ -8,25 +8,11 @@ const MovementsOverview = (props) => {
         <Table>
             <TableHead>
                 <TableRow>
-                    {['Id', 'Description', 'Date', 'Amount'].map(title => <TableCell key={title}>{title}</TableCell>)}
+                    {['Id', 'Description', 'Date', 'Amount', 'Edit', 'Delete'].map(title => <TableCell key={title}>{title}</TableCell>)}
                 </TableRow>
             </TableHead>
             <TableBody>
-                {movements.map(movement => (
-                    <TableRow key={movement.id}>
-                        <TableCell>
-                            {movement.id}
-                        </TableCell>
-                        <TableCell>
-                            {movement.description}
-                        </TableCell>
-                        <TableCell>
-                            {movement.date}
-                        </TableCell>
-                        <TableCell>
-                            {formatCents(movement.amountInCents)}
-                        </TableCell>
-                    </TableRow>))}
+                {movements.map(movement => (<MovementRow key={movement.id} movement={movement} />))}
             </TableBody>
         </Table>
     )

@@ -17,11 +17,11 @@ const ExAppBar = props => {
 
   return (
     <AppBar position="static">
-      <Toolbar>        
-        <IconButton color="inherit" onClick={() => history.push('/')}><HomeIcon /></IconButton>        
+      <Toolbar>
+        <IconButton color="inherit" onClick={() => history.push('/')}><HomeIcon /></IconButton>
         <Typography variant="h6" align="center" className={classes.title}>{title}</Typography>
-        { onAdd && <Fab size="small" color="secondary" onClick={ e => onAdd()}><AddIcon  /></Fab>}
-        { isAuthenticated && <Button color="inherit" onClick={onLogout}>Logout</Button> }
+        {onAdd && <Fab size="small" color="secondary" onClick={e => onAdd()}><AddIcon /></Fab>}
+        {isAuthenticated && <Button color="inherit" onClick={() => { onLogout(); history.push('/') }}>Logout</Button>}
       </Toolbar>
     </AppBar>
   )

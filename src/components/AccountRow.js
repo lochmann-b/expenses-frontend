@@ -33,11 +33,16 @@ const AccountRow = props => {
                 {formatCents(account.movements.filter(m => new Date(m.date) >= new Date(account.startDate)).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents))}
             </TableCell>
             <TableCell>
-                <IconButton color='primary' onClick = {e => history.push(`/editAccount/${account.id}`)} ><EditIcon /></IconButton>
+                <IconButton color='primary' onClick={e => history.push(`/editAccount/${account.id}`)} ><EditIcon /></IconButton>
             </TableCell>
             <TableCell>
                 <IconButton color='primary' onClick={e => setOpen(true)}><DeleteIcon /></IconButton>
-                <DeleteDialog open={open} item={account.name} onDelete={() => onDeleteAccount(account.id)} setOpen={setOpen} />
+                <DeleteDialog
+                    open={open}
+                    message={`Really delete Account ${account.name}?`}
+                    onDelete={() => onDeleteAccount(account.id)}
+                    setOpen={setOpen}
+                />
             </TableCell>
         </TableRow>)
 }

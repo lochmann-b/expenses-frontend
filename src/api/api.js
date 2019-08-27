@@ -53,10 +53,52 @@ export function _updateAccount(token, account) {
         }
         throw new Error(`Could not update account ${account.id}`)
     })
-    
-
 }
 
+export function _createMovement(token, movement) {
+    return fetch(`${URL_ENDPOINT}/accounts/${movement.accountId}/movements`,
+        {
+            method: 'POST',
+            headers: getHeader(token),
+            body: JSON.stringify(movement)
+        }
+    ).then(response => {
+        if (response.ok) {
+            return response.json()
+        }
+        throw new Error(`Could not create movement ${movement.description}`)
+    })
+}
+
+export function _updateMovement(token, movement) {
+    return fetch(`${URL_ENDPOINT}/accounts/${movement.accountId}/movements/${movement.id}`,
+        {
+            method: 'PUT',
+            headers: getHeader(token),
+            body: JSON.stringify(movement)
+        }
+    ).then(response => {
+        if (response.ok) {
+            return response.json()
+        }
+        throw new Error(`Could not create movement ${movement.description}`)
+    })
+}
+
+export function _deleteMovement(token, movement) {
+    fetch(
+        `${URL_ENDPOINT}/accounts/${movement.accountId}/movements/${movement.id}`,
+        {
+            method: 'DELETE',
+            headers: getHeader(token)
+        }
+    ).then(res => {
+        if (res.ok) {
+            return res.text()
+        }
+        return new Error(`${res.status} Could not delete Movement ${movement.id}`)
+    })
+}
 
 export async function _deleteAccount(token, accountId) {
     try {
