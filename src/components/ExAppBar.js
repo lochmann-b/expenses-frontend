@@ -5,7 +5,7 @@ import { logout } from '../actions/authentication'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { Button, IconButton } from '@material-ui/core/';
+import { Button, IconButton, Fab } from '@material-ui/core/';
 import HomeIcon from '@material-ui/icons/Home'
 import AddIcon from '@material-ui/icons/Add'
 
@@ -20,7 +20,7 @@ const ExAppBar = props => {
       <Toolbar>        
         <IconButton color="inherit" onClick={() => history.push('/')}><HomeIcon /></IconButton>        
         <Typography variant="h6" align="center" className={classes.title}>{title}</Typography>
-        { onAdd && <IconButton color="inherit" onClick={ e => onAdd()}><AddIcon  /></IconButton>}
+        { onAdd && <Fab size="small" color="secondary" onClick={ e => onAdd()}><AddIcon  /></Fab>}
         { isAuthenticated && <Button color="inherit" onClick={onLogout}>Logout</Button> }
       </Toolbar>
     </AppBar>

@@ -1,16 +1,19 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { formatCents } from '../util'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { Dialog, DialogContent, DialogContentText, DialogActions, TableRow, TableCell, Link, Button, IconButton } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit'
+import { TableRow, TableCell, Link, IconButton } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom'
 import { deleteAccountAsync } from '../actions/accounts'
+import DeleteDialog from './DeleteDialog'
 
 
 const AccountRow = props => {
 
     const [open, setOpen] = React.useState(false);
-    const { account, token, onDeleteAccount } = props
+    const { account, onDeleteAccount, history } = props
 
     return (
         <TableRow key={account.id}>
@@ -27,36 +30,28 @@ const AccountRow = props => {
                 {formatCents(account.startingBalanceInCents)}
             </TableCell>
             <TableCell>
-                {formatCents(account.movements.reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents))}
+                {formatCents(account.movements.filter(m => new Date(m.date) >= new Date(account.startDate)).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents))}
+            </TableCell>
+            <TableCell>
+                <IconButton color='primary' onClick = {e => history.push(`/editAccount/${account.id}`)} ><EditIcon /></IconButton>
             </TableCell>
             <TableCell>
                 <IconButton color='primary' onClick={e => setOpen(true)}><DeleteIcon /></IconButton>
-                <Dialog open={open} onClose={() => setOpen(false)} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            {`Really delete account ${account.name}?`}
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={e => setOpen(false)} color="secondary" autoFocus>No</Button>
-                        <Button onClick={e => { setOpen(false); onDeleteAccount(token, account.id) }} color="primary" >Yes</Button>
-                    </DialogActions>
-                </Dialog>
-
+                <DeleteDialog open={open} item={account.name} onDelete={() => onDeleteAccount(account.id)} setOpen={setOpen} />
             </TableCell>
         </TableRow>)
 }
 
 const mapStateToProps = state => {
     return {
-        token: state.authentication
+
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        onDeleteAccount: (token, accountId) => dispatch(deleteAccountAsync(token, accountId))
+        onDeleteAccount: (accountId) => dispatch(deleteAccountAsync(accountId))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountRow)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AccountRow))

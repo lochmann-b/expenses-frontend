@@ -1,5 +1,3 @@
-import { loadingDone } from "../actions/loading";
-
 const URL_ENDPOINT = 'https://bl-exp-backend.herokuapp.com/api'
 
 export async function getToken(user, password) {
@@ -41,6 +39,24 @@ export async function saveAccount(token, account) {
     const json = await res.json()
     return json
 }
+
+export function _updateAccount(token, account) {
+    return fetch(`${URL_ENDPOINT}/accounts/${account.id}`,
+        {
+            method: 'PUT',
+            headers: getHeader(token),
+            body: JSON.stringify(account)
+        }
+    ).then(response => {
+        if (response.ok) {
+            return response.json()
+        }
+        throw new Error(`Could not update account ${account.id}`)
+    })
+    
+
+}
+
 
 export async function _deleteAccount(token, accountId) {
     try {

@@ -1,9 +1,10 @@
 import { startLoading, loadingDone } from "./loading";
-import { getAccounts, saveAccount, _deleteAccount } from "../api/api";
+import { getAccounts, saveAccount, _deleteAccount, _updateAccount } from "../api/api";
 
 export const RECEIVE_ACCOUNTS = 'RECEIVE_ACCOUNTS'
 export const CREATE_ACCOUNT = 'CREATE_ACCOUNT'
 export const DELETE_ACCOUNT = 'DELETE_ACCOUNT'
+export const UPDATE_ACCOUNT = 'UPDATE_ACCOUNT'
 
 
 export function deleteAccount(accountId) {
@@ -27,31 +28,53 @@ export function createAccount(account) {
     }
 }
 
-export function deleteAccountAsync(token, account){
-    return dispatch => {
+export function updateAccount(account) {
+    return {
+        type: UPDATE_ACCOUNT,
+        account
+    }
+}
+
+export function deleteAccountAsync(account) {
+    return (dispatch, getState) => {
         dispatch(startLoading())
         try {
-            const res = _deleteAccount(token, account)            
-            if (!(res instanceof Error)){
+            const res = _deleteAccount(getState().authentication, account)
+            if (!(res instanceof Error)) {
                 dispatch(deleteAccount(account))
             }
             dispatch(loadingDone())
         } catch (e) {
             dispatch(loadingDone())
-        }            
+        }
     }
 }
 
-export function createAccountAsync(token, account) {    
-    return dispatch => {
+export function createAccountAsync(account) {
+    return (dispatch, getState) => {
         dispatch(startLoading())
-        saveAccount(token, account)
+        saveAccount(getState().authentication, account)
             .then(account => dispatch(createAccount(account)))
             .then(dispatch(loadingDone()))
             .catch(e => {
                 dispatch(loadingDone())
             })
 
+    }
+}
+
+export function updateAccountAsync(account) {
+    return (dispatch, getState) => {
+        dispatch(startLoading())
+        _updateAccount(getState().authentication, account)
+            .then(
+                account => dispatch(updateAccount(account)),
+                error => {
+                    console.log(`Error while updating account ${account.id}`, error)
+                    dispatch(loadingDone())
+                }
+            )
+            .then(dispatch(loadingDone()))
     }
 }
 

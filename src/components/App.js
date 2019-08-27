@@ -23,7 +23,8 @@ class App extends React.Component {
                                 : <div>
                                     <Switch>
                                         <Route exact path='/' render={props => <Dashboard accounts={accounts}/>}  />
-                                        <Route exact path='/addAccount' component={AddAccount}/>}  />
+                                        <Route exact path='/editAccount/:id' component={AddAccount}/>}  />
+                                        <Route exact path='/addAccount' component={AddAccount}/>}  />                                        
                                         <Route exact path='/accounts/:id' component={Account}/>}  />
                                         <Route component={Component404} />
                                     </Switch>
