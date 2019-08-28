@@ -1,124 +1,110 @@
 const URL_ENDPOINT = 'https://bl-exp-backend.herokuapp.com/api'
 
-export async function getToken(user, password) {
-    const res = await fetch(`${URL_ENDPOINT}/authenticate`, { headers: { 'Authorization': `Basic ${btoa(`${user}:${password}`)}` } })
-    if (res.status !== 200) {
-        throw Error(`${res.status} Could not fetch token`)
-    }
-    const token = res.text()
-    return token
+export function getToken(user, password) {
+    return doFetch(
+        `${URL_ENDPOINT}/authenticate`,
+        {
+            headers: {
+                'Authorization': `Basic ${btoa(`${user}:${password}`)}`
+            }
+        },
+        res => res.text(),
+        `Authenticaton failed`
+    )
 }
 
-export async function getAccounts(token) {
-    const res = await fetch(
+export function getAccounts(token) {
+    return doFetch(
         `${URL_ENDPOINT}/accounts`,
         {
             headers: getHeader(token)
-        }
+        },
+        res => res.json(),
+        `Could not fetch accounts`
     )
-
-    if (res.status !== 200) {
-        throw Error(`${res.status} Could not fetch accounts`)
-    }
-    const accounts = await res.json()
-    return accounts;
 }
 
-export async function saveAccount(token, account) {
-    const res = await fetch(
+export function saveAccount(token, account) {
+    return doFetch(
         `${URL_ENDPOINT}/accounts`,
         {
             method: 'POST',
             headers: getHeader(token),
             body: JSON.stringify(account)
-        }
+        },
+        res => res.json(),
+        `Could not save account ${account.accountName}`
     )
-    if (res.status !== 200) {
-        throw Error(`${res.status} Could not save account ${account.accountName}`)
-    }
-    const json = await res.json()
-    return json
 }
 
 export function _updateAccount(token, account) {
-    return fetch(`${URL_ENDPOINT}/accounts/${account.id}`,
+    return doFetch(`${URL_ENDPOINT}/accounts/${account.id}`,
         {
             method: 'PUT',
             headers: getHeader(token),
             body: JSON.stringify(account)
-        }
-    ).then(response => {
-        if (response.ok) {
-            return response.json()
-        }
-        throw new Error(`Could not update account ${account.id}`)
-    })
+        },
+        res => res.json(),
+        `Could not update account ${account.id}`
+    )
 }
 
 export function _createMovement(token, movement) {
-    return fetch(`${URL_ENDPOINT}/accounts/${movement.accountId}/movements`,
+    return doFetch(`${URL_ENDPOINT}/accounts/${movement.accountId}/movements`,
         {
             method: 'POST',
             headers: getHeader(token),
             body: JSON.stringify(movement)
-        }
-    ).then(response => {
-        if (response.ok) {
-            return response.json()
-        }
-        throw new Error(`Could not create movement ${movement.description}`)
-    })
+        },
+        res => res.json(),
+        `Could not create movement ${movement.description}`
+    )
 }
 
 export function _updateMovement(token, movement) {
-    return fetch(`${URL_ENDPOINT}/accounts/${movement.accountId}/movements/${movement.id}`,
+    return doFetch(`${URL_ENDPOINT}/accounts/${movement.accountId}/movements/${movement.id}`,
         {
             method: 'PUT',
             headers: getHeader(token),
             body: JSON.stringify(movement)
-        }
-    ).then(response => {
-        if (response.ok) {
-            return response.json()
-        }
-        throw new Error(`Could not create movement ${movement.description}`)
-    })
+        },
+        res => res.json(),
+        `Could not create movement ${movement.description}`
+    )
 }
 
 export function _deleteMovement(token, movement) {
-    fetch(
+    return doFetch(
         `${URL_ENDPOINT}/accounts/${movement.accountId}/movements/${movement.id}`,
         {
             method: 'DELETE',
             headers: getHeader(token)
-        }
-    ).then(res => {
-        if (res.ok) {
-            return res.text()
-        }
-        return new Error(`${res.status} Could not delete Movement ${movement.id}`)
-    })
+        },
+        res => res.json(), `Could not delete Movement ${movement.id}`
+    )
 }
 
-export async function _deleteAccount(token, accountId) {
-    try {
-        const res = await fetch(
-            `${URL_ENDPOINT}/accounts/${accountId}`,
-            {
-                method: 'DELETE',
-                headers: getHeader(token),
-            }
-        )
-        if (res.status !== 200) {
-            throw Error(`${res.status} Could not delete account ${accountId}`)
-        }
-        const txt = await res.text()
-        return txt
-    } catch (err) {
-        console.log(err)
-        return err
-    }
+export function _deleteAccount(token, accountId) {
+    return doFetch(
+        `${URL_ENDPOINT}/accounts/${accountId}`,
+        {
+            method: 'DELETE',
+            headers: getHeader(token),
+        },
+        res => res.text(), `Could not delete account ${accountId}`
+    )
 }
+
+function doFetch(url, request, resolve, errorMessage) {
+    return fetch(url, request)
+        .then(res => {
+            if (res.ok) {
+                return resolve(res)
+            }
+            throw Error(`Error ${res.status}: ${errorMessage}`)
+        })
+}
+
 
 function getHeader(token) {
     return {

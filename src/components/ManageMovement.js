@@ -2,12 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import BasePage from './BasePage'
-import { TextField, Snackbar, SnackbarContent } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
-import { green } from '@material-ui/core/colors';
 import { createMovementAsync, updateMovementAsync } from '../actions/movements';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+
 
 class ManageMovement extends React.Component {
 
@@ -15,7 +14,6 @@ class ManageMovement extends React.Component {
         date: this.props.movement ? this.props.movement.date : '',
         description: this.props.movement ? this.props.movement.description : '',
         amount: this.props.movement ? this.props.movement.amountInCents / 100.0 : 0.00,
-        open: false
     }
 
     onDateChanged = (date) => {
@@ -50,7 +48,6 @@ class ManageMovement extends React.Component {
         })
 
         this.setState({
-            open: true,
             description: '',
             amount: 0.0
         })
@@ -71,26 +68,9 @@ class ManageMovement extends React.Component {
 
     render() {
         const { movement, classes } = this.props
-        const { date, amount, description, open } = this.state
+        const { date, amount, description } = this.state
         return (
             <BasePage title={movement ? 'Edit Movement' : 'New Movement'}>
-
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                    }}
-                    open={open}
-                    autoHideDuration={2000}
-                    onClose={() => this.setState({ open: false })}
-                >
-                    <SnackbarContent
-                        onClose={() => this.setState({ open: false })}
-                        className={classes.snackbarOk}
-                        message={<span className={classes.message} id="message-id"><CheckCircleIcon className={classes.successIcon} />Movement created</span>}
-                    />
-                </Snackbar>
-
                 <form className={classes.form} noValidate>
                     <TextField margin="normal" required fullWidth id="description" label="Description" name="description" autoFocus value={description} onChange={e => this.onDescriptionChanged(e.target.value)} />
                     <TextField InputLabelProps={{ shrink: true }} margin="normal" type="date" required fullWidth id="date" label="Date" name="date" value={date} onChange={e => this.onDateChanged(e.target.value)} />
@@ -108,18 +88,6 @@ const styles = theme => ({
     form: {
         width: '100%', // Fix IE 11 issue.
         padding: theme.spacing(1)
-    },
-    snackbarOk: {
-        backgroundColor: green[600]
-    },
-    successIcon: {
-        opacity: 0.9,
-        marginRight: theme.spacing(1),
-        fontSize: 20,
-    },
-    message: {
-        display: 'flex',
-        alignItems: 'center',
     },
     submit: {
         margin: theme.spacing(3, 0, 2),

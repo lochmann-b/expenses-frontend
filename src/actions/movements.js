@@ -1,5 +1,6 @@
 import { startLoading, loadingDone } from "./loading";
 import { _createMovement, _deleteMovement, _updateMovement } from "../api/api";
+import { raiseError } from "./errors";
 
 export const RECEIVE_MOVEMENT = 'RECEIVE_MOVEMENT'
 export const CREATE_MOVEMENT = 'CREATE_MOVEMENT'
@@ -50,6 +51,7 @@ export function createMovementAsync(movement) {
             .then(movement => dispatch(createMovement(movement)))
             .then(dispatch(loadingDone()))
             .catch(e => {
+                dispatch(raiseError(e))
                 dispatch(loadingDone())
             })
 

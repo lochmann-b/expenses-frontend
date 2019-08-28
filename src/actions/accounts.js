@@ -1,5 +1,6 @@
 import { startLoading, loadingDone } from "./loading";
 import { getAccounts, saveAccount, _deleteAccount, _updateAccount } from "../api/api";
+import { raiseError } from "./errors";
 
 export const RECEIVE_ACCOUNTS = 'RECEIVE_ACCOUNTS'
 export const CREATE_ACCOUNT = 'CREATE_ACCOUNT'
@@ -38,17 +39,18 @@ export function updateAccount(account) {
 export function deleteAccountAsync(account) {
     return (dispatch, getState) => {
         dispatch(startLoading())
-        try {
-            const res = _deleteAccount(getState().authentication, account)
-            if (!(res instanceof Error)) {
-                dispatch(deleteAccount(account))
-            }
-            dispatch(loadingDone())
-        } catch (e) {
-            dispatch(loadingDone())
-        }
+        _deleteAccount(getState().authentication, account)
+            .then(() => dispatch(deleteAccount(account)))
+            .then(dispatch(loadingDone()))
+            .catch(error => {
+                dispatch(raiseError(error))
+                dispatch(loadingDone())
+            })
+
     }
 }
+
+
 
 export function createAccountAsync(account) {
     return (dispatch, getState) => {
