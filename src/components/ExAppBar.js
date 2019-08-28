@@ -10,7 +10,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import RefreshIcon from '@material-ui/icons/Refresh'
 
 import { withRouter } from 'react-router-dom'
-import { loadAccounts } from '../actions/accounts';
+import { loadAccountsAsync } from '../actions/accounts';
 
 const ExAppBar = props => {
   const classes = useStyles()
@@ -52,7 +52,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onLogout: () => dispatch(logout()),
-    onRefresh: () => dispatch(loadAccounts())
+    onRefresh: () => dispatch(loadAccountsAsync())
   }
 }
 

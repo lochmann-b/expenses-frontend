@@ -1,6 +1,5 @@
-import { startLoading, loadingDone } from "./loading";
-import { _createMovement, _deleteMovement, _updateMovement } from "../api/api";
-import { raiseError } from "./errors";
+import { _createMovement, _deleteMovement, _updateMovement } from "../api/api"
+import { createThunk } from './shared'
 
 export const RECEIVE_MOVEMENT = 'RECEIVE_MOVEMENT'
 export const CREATE_MOVEMENT = 'CREATE_MOVEMENT'
@@ -30,45 +29,32 @@ export function updateMovement(movement) {
 }
 
 export function deleteMovementAsync(movement) {
-    return (dispatch, getState) => {
-        dispatch(startLoading())
-        try {
-            const res = _deleteMovement(getState().authentication, movement)
-            if (!(res instanceof Error)) {
-                dispatch(deleteMovement(movement))
-            }
-            dispatch(loadingDone())
-        } catch (e) {
-            dispatch(loadingDone())
-        }
-    }
+    return createThunk(
+        {
+            apiCall: (getState, m) => _deleteMovement(getState().authentication, m),
+            actionSuccess: (_, m) => deleteMovement(m)
+        },
+        movement
+    )
+
 }
 
 export function createMovementAsync(movement) {
-    return (dispatch, getState) => {
-        dispatch(startLoading())
-        _createMovement(getState().authentication, movement)
-            .then(movement => dispatch(createMovement(movement)))
-            .then(dispatch(loadingDone()))
-            .catch(e => {
-                dispatch(raiseError(e))
-                dispatch(loadingDone())
-            })
-
-    }
+    return createThunk(
+        {
+            apiCall: (getState, m) => _createMovement(getState().authentication, m),
+            actionSuccess: movement => createMovement(movement)
+        },
+        movement
+    )
 }
 
 export function updateMovementAsync(movement) {
-    return (dispatch, getState) => {
-        dispatch(startLoading())
-        _updateMovement(getState().authentication, movement)
-            .then(
-                movement => dispatch(updateMovement(movement)),
-                error => {
-                    console.log(`Error while updating movement ${movement.id}`, error)
-                    dispatch(loadingDone())
-                }
-            )
-            .then(dispatch(loadingDone()))
-    }
+    return createThunk(
+        {
+            apiCall: (getState, movement) => _updateMovement(getState().authentication, movement),
+            actionSuccess: movement => updateMovement(movement)
+        },
+        movement
+    )
 }

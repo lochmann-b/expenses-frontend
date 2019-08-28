@@ -1,6 +1,5 @@
-import { startLoading, loadingDone } from "./loading";
-import { getAccounts, saveAccount, _deleteAccount, _updateAccount } from "../api/api";
-import { raiseError } from "./errors";
+import { _getAccounts, _saveAccount, _deleteAccount, _updateAccount } from "../api/api";
+import { createThunk } from './shared'
 
 export const RECEIVE_ACCOUNTS = 'RECEIVE_ACCOUNTS'
 export const CREATE_ACCOUNT = 'CREATE_ACCOUNT'
@@ -37,59 +36,42 @@ export function updateAccount(account) {
 }
 
 export function deleteAccountAsync(account) {
-    return (dispatch, getState) => {
-        dispatch(startLoading())
-        _deleteAccount(getState().authentication, account)
-            .then(() => dispatch(deleteAccount(account)))
-            .then(dispatch(loadingDone()))
-            .catch(error => {
-                dispatch(raiseError(error))
-                dispatch(loadingDone())
-            })
-
-    }
+    return createThunk(
+        {
+            apiCall: (getState, acc) => _deleteAccount(getState().authentication, acc),
+            actionSuccess: accountId => deleteAccount(parseInt(accountId)),
+        },
+        account
+    )
 }
 
-
-
 export function createAccountAsync(account) {
-    return (dispatch, getState) => {
-        dispatch(startLoading())
-        saveAccount(getState().authentication, account)
-            .then(account => dispatch(createAccount(account)))
-            .then(dispatch(loadingDone()))
-            .catch(e => {
-                dispatch(loadingDone())
-            })
-
-    }
+    return createThunk(
+        {
+            apiCall: (getState, acc) => _saveAccount(getState().authentication, acc),
+            actionSuccess: account => createAccount(account)
+        },
+        account
+    )
 }
 
 export function updateAccountAsync(account) {
-    return (dispatch, getState) => {
-        dispatch(startLoading())
-        _updateAccount(getState().authentication, account)
-            .then(
-                account => dispatch(updateAccount(account)),
-                error => {
-                    console.log(`Error while updating account ${account.id}`, error)
-                    dispatch(loadingDone())
-                }
-            )
-            .then(dispatch(loadingDone()))
-    }
+    return createThunk(
+        {
+            apiCall: (getState, acc) => _updateAccount(getState().authentication, acc),
+            actionSuccess: acc => updateAccount(acc)
+        },
+        account
+    )
+
 }
 
-export function loadAccounts() {
-    return (dispatch, getState) => {
-        dispatch(startLoading())
-        getAccounts(getState().authentication)
-            .then(accounts => dispatch(receiveAccounts(accounts)))
-            .then(dispatch(loadingDone()))
-            .catch(e => {
-                dispatch(receiveAccounts([]))
-                dispatch(loadingDone())
-
-            })
-    }
+export function loadAccountsAsync() {
+    return createThunk(
+        {
+            apiCall: getState => _getAccounts(getState().authentication),
+            actionSuccess: accounts => receiveAccounts(accounts),
+            actionError: () => receiveAccounts([])
+        }
+    )
 }

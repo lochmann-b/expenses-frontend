@@ -1,5 +1,5 @@
 import { startLoading, loadingDone } from './loading'
-import { getToken, getAccounts } from '../api/api'
+import { _getToken, _getAccounts } from '../api/api'
 import { receiveAccounts } from './accounts';
 
 export const RECEIVE_TOKEN = 'RECEIVE_TOKEN'
@@ -21,10 +21,10 @@ export function logout(){
 export function authenticate(user, password) {
     return (dispatch) => {
         dispatch(startLoading())
-        return getToken(user, password)
+        return _getToken(user, password)
             .then(token => {
                 dispatch(receiveToken(token))
-                getAccounts(token).then(accounts => {
+                _getAccounts(token).then(accounts => {
                     dispatch(receiveAccounts(accounts))
                     dispatch(loadingDone())
                 }).catch(error => {

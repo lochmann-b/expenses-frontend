@@ -1,14 +1,16 @@
-import { receiveAccounts } from './accounts'
-import { getAccounts } from '../api/api';
 import { startLoading, loadingDone } from './loading';
+import { raiseError } from './errors';
 
-export function handleInitialData() {
-    return (dispatch) => {
+export function createThunk({ apiCall, actionSuccess, actionError }, payload) {
+    return (dispatch, getState) => {
         dispatch(startLoading())
-        return getAccounts()
-        .then( accounts => {
-            dispatch(receiveAccounts(accounts))
-            dispatch(loadingDone())
-        })
+        apiCall(getState, payload)
+            .then(res => dispatch(actionSuccess(res, payload)))
+            .then(dispatch(loadingDone()))
+            .catch(error => {
+                actionError && dispatch(actionError(error))
+                dispatch(raiseError(error))
+                dispatch(loadingDone())
+            })
     }
 }

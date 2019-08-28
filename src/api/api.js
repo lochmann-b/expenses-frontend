@@ -1,6 +1,6 @@
 const URL_ENDPOINT = 'https://bl-exp-backend.herokuapp.com/api'
 
-export function getToken(user, password) {
+export function _getToken(user, password) {
     return doFetch(
         `${URL_ENDPOINT}/authenticate`,
         {
@@ -13,7 +13,7 @@ export function getToken(user, password) {
     )
 }
 
-export function getAccounts(token) {
+export function _getAccounts(token) {
     return doFetch(
         `${URL_ENDPOINT}/accounts`,
         {
@@ -24,7 +24,7 @@ export function getAccounts(token) {
     )
 }
 
-export function saveAccount(token, account) {
+export function _saveAccount(token, account) {
     return doFetch(
         `${URL_ENDPOINT}/accounts`,
         {
