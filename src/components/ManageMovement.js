@@ -67,10 +67,10 @@ class ManageMovement extends React.Component {
     }
 
     render() {
-        const { movement, classes } = this.props
+        const { movement, classes, accountId } = this.props
         const { date, amount, description } = this.state
         return (
-            <BasePage title={movement ? 'Edit Movement' : 'New Movement'}>
+            <BasePage title={movement ? 'Edit Movement' : 'New Movement'} back={`/accounts/${accountId}`}>                
                 <form className={classes.form} noValidate>
                     <TextField margin="normal" required fullWidth id="description" label="Description" name="description" autoFocus value={description} onChange={e => this.onDescriptionChanged(e.target.value)} />
                     <TextField InputLabelProps={{ shrink: true }} margin="normal" type="date" required fullWidth id="date" label="Date" name="date" value={date} onChange={e => this.onDateChanged(e.target.value)} />
@@ -95,7 +95,8 @@ const styles = theme => ({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    if (ownProps.match.params.accountId && ownProps.match.params.id) {
+    const accountId = ownProps.match.params.accountId
+    if (ownProps.match.params.id) {
         const accountId = parseInt(ownProps.match.params.accountId)
         const id = parseInt(ownProps.match.params.id)
         const account = state.accounts.find(acccount => acccount.id === accountId)
@@ -108,7 +109,7 @@ const mapStateToProps = (state, ownProps) => {
             }
         }
     }
-    return {}
+    return { accountId }
 }
 
 

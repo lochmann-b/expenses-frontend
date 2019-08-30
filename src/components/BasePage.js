@@ -6,11 +6,11 @@ import Messages from './Messages'
 
 const BasePage = props => {
     const classes = useStyles()
-    const { children, title, logout, onAdd } = props
+    const { children, title, back } = props
     return (
         <Container maxWidth="xl" >
             <CssBaseline />
-            <ExAppBar title={title} logout={logout} onAdd={onAdd} />
+            <ExAppBar title={title} back={back} />
             <Paper className={classes.root}>
                 <Messages />
                 {children}

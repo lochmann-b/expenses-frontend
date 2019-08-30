@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { formatCents } from '../util'
+import { formatCents, calculateAccountBalance } from '../util'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import { TableRow, TableCell, Link, IconButton } from '@material-ui/core';
@@ -30,7 +30,7 @@ const AccountRow = props => {
                 {formatCents(account.startingBalanceInCents)}
             </TableCell>
             <TableCell align='right'>
-                {formatCents(account.movements.filter(m => new Date(m.date) >= new Date(account.startDate)).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents))}
+                { calculateAccountBalance(account) }
             </TableCell>
             <TableCell padding='checkbox'>
                 <IconButton color='primary' onClick={e => history.push(`/editAccount/${account.id}`)} ><EditIcon /></IconButton>

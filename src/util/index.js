@@ -17,3 +17,7 @@ export function today() {
     const date = new Date()
     return `${date.getFullYear()}-${date.getMonth() < 9 ? '0' : ''}${date.getMonth() + 1}-${date.getDate()}`
 }
+
+export function calculateAccountBalance(account){
+    return formatCents(account.movements.filter(m => new Date(m.date) >= new Date(account.startDate)).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents))
+}

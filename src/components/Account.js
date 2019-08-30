@@ -12,9 +12,9 @@ const Account = props => {
     const classes = useStyles()
 
     return (
-        <BasePage title={account.name}>
+        <BasePage title={account.name}>            
             <MovementsOverview movements={account.movements} />
-            <Fab onClick={e => history.push(`/accounts/${account.id}/addMovement`)} className={classes.fab} size="small" color="secondary"><AddIcon /></Fab>
+            <Fab onClick={_ => history.push(`/accounts/${account.id}/addMovement`)} className={classes.fab} size="small" color="secondary"><AddIcon /></Fab>
         </BasePage>)
 
 }

@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Button, IconButton } from '@material-ui/core/';
 import HomeIcon from '@material-ui/icons/Home'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import RefreshIcon from '@material-ui/icons/Refresh'
 
 import { withRouter } from 'react-router-dom'
@@ -14,12 +15,13 @@ import { loadAccountsAsync } from '../actions/accounts';
 
 const ExAppBar = props => {
   const classes = useStyles()
-  const { title, history, isAuthenticated, onLogout, onRefresh} = props
+  const { title, history, isAuthenticated, onLogout, onRefresh, back} = props
 
   return (
     <AppBar position="static">
       <Toolbar>
         <IconButton color="inherit" onClick={() => history.push('/')}><HomeIcon /></IconButton>
+        {back && <IconButton color="inherit" onClick={() => history.push(back)}><ArrowBackIcon /></IconButton>}
         <Typography variant="caption" align="center" className={classes.title}>{title}</Typography>
         <IconButton color="inherit" onClick={onRefresh}><RefreshIcon /></IconButton>
         {isAuthenticated && <Button color="inherit" onClick={() => { onLogout(); history.push('/') }}>Logout</Button>}
