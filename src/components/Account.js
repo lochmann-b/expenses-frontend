@@ -6,13 +6,16 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Fab } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { withRouter } from 'react-router-dom'
+import ShowChartIcon from '@material-ui/icons/ShowChart'
 
 const Account = props => {
     const { account, history } = props
     const classes = useStyles()
 
+    const navigationItems=[{icon:ShowChartIcon, to:`/accounts/${account.id}/analyze`}]
+
     return (
-        <BasePage title={account.name}>            
+        <BasePage title={account.name} navigationItems={navigationItems}>            
             <MovementsOverview movements={account.movements} />
             <Fab onClick={_ => history.push(`/accounts/${account.id}/addMovement`)} className={classes.fab} size="small" color="secondary"><AddIcon /></Fab>
         </BasePage>)

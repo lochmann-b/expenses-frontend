@@ -15,12 +15,13 @@ import { loadAccountsAsync } from '../actions/accounts';
 
 const ExAppBar = props => {
   const classes = useStyles()
-  const { title, history, isAuthenticated, onLogout, onRefresh, back} = props
+  const { title, history, isAuthenticated, onLogout, onRefresh, back, children} = props
 
   return (
     <AppBar position="static">
       <Toolbar>
         <IconButton color="inherit" onClick={() => history.push('/')}><HomeIcon /></IconButton>
+        {children}
         {back && <IconButton color="inherit" onClick={() => history.push(back)}><ArrowBackIcon /></IconButton>}
         <Typography variant="caption" align="center" className={classes.title}>{title}</Typography>
         <IconButton color="inherit" onClick={onRefresh}><RefreshIcon /></IconButton>

@@ -21,3 +21,19 @@ export function today() {
 export function calculateAccountBalance(account){
     return formatCents(account.movements.filter(m => new Date(m.date) >= new Date(account.startDate)).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents))
 }
+
+export function calculateAccountBalanceTo(account, to){
+    return formatCents(account.movements.filter(m => new Date(m.date) <= to).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents))
+}
+
+export function calculateAccountBalanceFrom(account, from){
+    return formatCents(account.movements.filter(m => new Date(m.date) >= from).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents))
+}
+
+export function sumIncome(account, from, to){
+    return formatCents(account.movements.filter(m => (m.amountInCents < 0 && new Date(m.date) <= to && new Date(m.date) >= from)).reduce((accumulator, m) => m.amountInCents + accumulator, 0))
+}
+
+export function sumExpenses(account, from, to){
+    return formatCents(account.movements.filter(m => (m.amountInCents > 0 && new Date(m.date) <= to && new Date(m.date) >= from)).reduce((accumulator, m) => m.amountInCents + accumulator, 0))
+}
