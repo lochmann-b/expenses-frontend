@@ -16,7 +16,7 @@ const AccountRow = props => {
     const { account, onDeleteAccount, history } = props
 
     return (
-        <TableRow key={account.id}>
+        <TableRow key={account.id} size='small'>
             <TableCell>
                 {account.id}
             </TableCell>
@@ -26,16 +26,16 @@ const AccountRow = props => {
             <TableCell>
                 {account.startDate}
             </TableCell>
-            <TableCell>
+            <TableCell align='right'>
                 {formatCents(account.startingBalanceInCents)}
             </TableCell>
-            <TableCell>
+            <TableCell align='right'>
                 {formatCents(account.movements.filter(m => new Date(m.date) >= new Date(account.startDate)).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents))}
             </TableCell>
-            <TableCell>
+            <TableCell padding='checkbox'>
                 <IconButton color='primary' onClick={e => history.push(`/editAccount/${account.id}`)} ><EditIcon /></IconButton>
             </TableCell>
-            <TableCell>
+            <TableCell padding='checkbox'>
                 <IconButton color='primary' onClick={e => setOpen(true)}><DeleteIcon /></IconButton>
                 <DeleteDialog
                     open={open}

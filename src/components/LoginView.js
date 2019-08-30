@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core/styles';
 import { authenticate } from '../actions/authentication';
+import { Link as RouterLink } from 'react-router-dom'
 
 class LoginView extends React.Component {
 
@@ -35,8 +36,8 @@ class LoginView extends React.Component {
         e.preventDefault()
         login(userName, password)
         this.setState({
-            userName:'',
-            password:''
+            userName: '',
+            password: ''
         })
     }
 
@@ -63,7 +64,7 @@ class LoginView extends React.Component {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link component={RouterLink} to="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
@@ -100,13 +101,12 @@ const styles = theme => ({
     },
 });
 
-const mapStateToProps = (state) => {
-    return {}
-}
-
-
-const mapDispatchToProps = (dispatch, props) => {
+const mapDispatchToProps = (dispatch) => {
     return { login: (userName, password) => dispatch(authenticate(userName, password)) }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(LoginView))
+const mapStateToProps = _ => {
+    return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LoginView))

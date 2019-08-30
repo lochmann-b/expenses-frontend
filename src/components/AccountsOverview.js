@@ -7,7 +7,7 @@ import {  Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/
 const AccountsOverview = (props) => {
     const { accounts } = props
     return (
-        <Table>
+        <Table size='small'>
             <TableHead>
                 <TableRow>
                     {['Id', 'Name', 'Start Date', 'Starting Balance', 'Balance', 'Edit', 'Delete'].map(title => <TableCell key={title}>{title}</TableCell>)}
@@ -17,8 +17,6 @@ const AccountsOverview = (props) => {
                 {accounts.map(account => <AccountRow key={account.id} account={account} />)}                
             </TableBody>            
         </Table>
-
-
     )
 }
 

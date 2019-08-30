@@ -1,5 +1,18 @@
 const URL_ENDPOINT = 'https://bl-exp-backend.herokuapp.com/api'
 
+export function _signup(token, user){
+    return doFetch(
+        `${URL_ENDPOINT}/user`,
+        {
+            method: 'POST',
+            headers: getHeader(token),
+            body: JSON.stringify(user)
+        },
+        res => res.json(),
+        `Could not create user ${user.login}`
+    )
+}
+
 export function _getToken(user, password) {
     return doFetch(
         `${URL_ENDPOINT}/authenticate`,
@@ -101,6 +114,7 @@ function doFetch(url, request, resolve, errorMessage) {
             if (res.ok) {
                 return resolve(res)
             }
+            console.log(`res not ok`)
             throw Error(`Error ${res.status}: ${errorMessage}`)
         })
 }

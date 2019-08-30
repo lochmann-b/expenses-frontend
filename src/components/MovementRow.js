@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { formatCents } from '../util'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
-import { TableRow, TableCell, IconButton } from '@material-ui/core';
+import { TableRow, TableCell, IconButton, Checkbox } from '@material-ui/core';
 import { deleteMovementAsync } from '../actions/movements'
 import DeleteDialog from './DeleteDialog'
 
@@ -16,34 +16,40 @@ const MovementRow = props => {
 
     return (
         <TableRow key={movement.id}>
-            <TableCell>
+            <MakeCell component='th'>
                 {movement.id}
-            </TableCell>
-            <TableCell>
+            </MakeCell>
+            <MakeCell>
                 {movement.description}
-            </TableCell>
-            <TableCell>
+            </MakeCell>
+            <MakeCell>
                 {movement.date}
-            </TableCell>
-            <TableCell>
+            </MakeCell>
+            <MakeCell align='right'>
                 {formatCents(movement.amountInCents)}
-            </TableCell>
-            <TableCell>
-                <IconButton color='primary' onClick={e => history.push(`/accounts/${movement.accountId}/editMovement/${movement.id}`)} ><EditIcon /></IconButton>
-            </TableCell>
-            <TableCell>
-                <IconButton color='primary' onClick={e => setOpen(true)}><DeleteIcon /></IconButton>
+            </MakeCell>
+            <MakeCell padding='Checkbox' align='center'>
+                <IconButton color='primary' onClick={_ => history.push(`/accounts/${movement.accountId}/editMovement/${movement.id}`)} ><EditIcon fontSize={'small'} /></IconButton>
+            </MakeCell>
+            <MakeCell padding='Checkbox' align='center'>
+                <IconButton color='primary' onClick={_ => setOpen(true)}><DeleteIcon fontSize='small'/></IconButton>
                 <DeleteDialog
                     open={open}
                     message={`Really delete movement ${movement.description}?`}
                     onDelete={() => onDeleteMovement(movement)}
                     setOpen={setOpen}
                 />
-            </TableCell>
+            </MakeCell>
         </TableRow>)
 }
 
-const mapStateToProps = state => {
+const MakeCell = props => {
+    
+    const { children, ...other} = props
+    return (<TableCell size='small' {...other}>{children}</TableCell>)
+}
+
+const mapStateToProps = _ => {
     return {
 
     }

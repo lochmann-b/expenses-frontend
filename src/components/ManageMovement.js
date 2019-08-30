@@ -6,12 +6,12 @@ import { TextField } from '@material-ui/core';
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import { createMovementAsync, updateMovementAsync } from '../actions/movements';
-
+import { today } from '../util'
 
 class ManageMovement extends React.Component {
 
     state = {
-        date: this.props.movement ? this.props.movement.date : '',
+        date: this.props.movement ? this.props.movement.date : today(),
         description: this.props.movement ? this.props.movement.description : '',
         amount: this.props.movement ? this.props.movement.amountInCents / 100.0 : 0.00,
     }
@@ -74,7 +74,7 @@ class ManageMovement extends React.Component {
                 <form className={classes.form} noValidate>
                     <TextField margin="normal" required fullWidth id="description" label="Description" name="description" autoFocus value={description} onChange={e => this.onDescriptionChanged(e.target.value)} />
                     <TextField InputLabelProps={{ shrink: true }} margin="normal" type="date" required fullWidth id="date" label="Date" name="date" value={date} onChange={e => this.onDateChanged(e.target.value)} />
-                    <TextField margin="normal" required fullWidth name="amount" label="Amount" type="number" step="0.01" id="amount" value={amount} onChange={e => this.onAmountChanged(e.target.value)} />
+                    <TextField onClick={e => e.target.select()} margin="normal" required fullWidth name="amount" label="Amount" type="number" step="0.01" id="amount" value={amount} onChange={e => this.onAmountChanged(e.target.value)} />
                     <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={movement ? this.onUpdateMovement : this.onCreateMovement}>
                         {movement ? 'Update' : 'Create'}
                     </Button>

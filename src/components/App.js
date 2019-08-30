@@ -8,10 +8,11 @@ import Loading from './Loading'
 import Account from './Account'
 import ManageAccount from './ManageAccount';
 import ManageMovement from './ManageMovement';
+import SignUp from './SignUp';
 
 class App extends React.Component {
     render() {
-        const { loading, authentication, accounts=[] } = this.props
+        const { loading, authentication, accounts = [] } = this.props
         return (
             <Router>
                 <Fragment>
@@ -19,15 +20,21 @@ class App extends React.Component {
                         loading === true
                             ? <Loading />
                             : authentication === ''
-                                ? <LoginView />
+                                ? <div>
+                                    <Switch>
+                                        <Route exact path='/signup' component={SignUp} />}  />
+                                        <Route component={LoginView} />}  />
+                                    </Switch>
+                                </div>
                                 : <div>
                                     <Switch>
-                                        <Route exact path='/' render={props => <Dashboard accounts={accounts}/>}  />
-                                        <Route exact path='/editAccount/:id' component={ManageAccount}/>}  />
-                                        <Route exact path='/addAccount' component={ManageAccount}/>}  />                                        
-                                        <Route exact path='/accounts/:id' component={Account}/>}  />
-                                        <Route exact path='/accounts/:accountId/editMovement/:id' component={ManageMovement}/>}  />
-                                        <Route exact path='/accounts/:accountId/addMovement' component={ManageMovement}/>}  />
+                                        <Route exact path='/' render={_ => <Dashboard accounts={accounts} />} />
+                                        <Route exact path='/editAccount/:id' component={ManageAccount} />}  />
+                                        <Route exact path='/addAccount' component={ManageAccount} />}  />
+                                        <Route exact path='/accounts/:id' component={Account} />}  />
+                                        <Route exact path='/accounts/:accountId/editMovement/:id' component={ManageMovement} />}  />
+                                        <Route exact path='/accounts/:accountId/addMovement' component={ManageMovement} />}  />
+                                        <Route exact path='/signup' component={SignUp} />}  />
                                         <Route component={Component404} />
                                     </Switch>
                                 </div>

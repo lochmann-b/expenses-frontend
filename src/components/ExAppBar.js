@@ -20,7 +20,7 @@ const ExAppBar = props => {
     <AppBar position="static">
       <Toolbar>
         <IconButton color="inherit" onClick={() => history.push('/')}><HomeIcon /></IconButton>
-        <Typography variant="h6" align="center" className={classes.title}>{title}</Typography>
+        <Typography variant="caption" align="center" className={classes.title}>{title}</Typography>
         <IconButton color="inherit" onClick={onRefresh}><RefreshIcon /></IconButton>
         {isAuthenticated && <Button color="inherit" onClick={() => { onLogout(); history.push('/') }}>Logout</Button>}
       </Toolbar>

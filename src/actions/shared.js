@@ -1,5 +1,5 @@
 import { startLoading, loadingDone } from './loading';
-import { raiseError } from './errors';
+import { raiseError } from './messages';
 
 export function createThunk({ apiCall, actionSuccess, actionError }, payload) {
     return (dispatch, getState) => {
