@@ -67,8 +67,13 @@ class ManageMovement extends React.Component {
     }
 
     render() {
-        const { movement, classes, accountId } = this.props
+
+        const { movement, classes, match } = this.props
+        const { accountId } = match.params
         const { date, amount, description } = this.state
+        console.log('AccountId', accountId)
+
+
         return (
             <BasePage title={movement ? 'Edit Movement' : 'New Movement'} back={`/accounts/${accountId}`}>                
                 <form className={classes.form} noValidate>
@@ -95,7 +100,6 @@ const styles = theme => ({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    const accountId = ownProps.match.params.accountId
     if (ownProps.match.params.id) {
         const accountId = parseInt(ownProps.match.params.accountId)
         const id = parseInt(ownProps.match.params.id)
@@ -109,7 +113,7 @@ const mapStateToProps = (state, ownProps) => {
             }
         }
     }
-    return { accountId }
+    return { }
 }
 
 
