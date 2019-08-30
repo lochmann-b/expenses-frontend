@@ -5,6 +5,7 @@ import AccountsOverview from './AccountsOverview'
 import AddIcon from '@material-ui/icons/Add'
 import { Fab } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import ExAppBar from './ExAppBar';
 
 
 
@@ -14,6 +15,7 @@ const Dashboard = props => {
     const classes = useStyles()
     return (
         <BasePage title='Dashboard'>
+            <ExAppBar title='Dashboard'/>
             <AccountsOverview accounts={accounts} />
             <Fab onClick={e => history.push('/addAccount')} className={classes.fab} size="small" color="secondary"><AddIcon /></Fab>
         </BasePage>)

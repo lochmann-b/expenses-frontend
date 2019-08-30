@@ -1,16 +1,14 @@
 import React from 'react'
 import { CssBaseline, Paper, Container } from '@material-ui/core';
-import ExAppBar from './ExAppBar'
 import { makeStyles } from '@material-ui/core/styles'
 import Messages from './Messages'
 
 const BasePage = props => {
     const classes = useStyles()
-    const { children, title, back, navigationItems = [] } = props
+    const { children } = props
     return (
         <Container maxWidth="xl" >
             <CssBaseline />
-            <ExAppBar title={title} back={back} navigationItems={navigationItems}/>
             <Paper className={classes.root}>
                 <Messages />
                 {children}

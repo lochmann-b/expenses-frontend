@@ -13,9 +13,13 @@ export function sortMovements(a, b){
     return order
 }
 
+export function toShortDateStr(date) {
+    return `${date.getFullYear()}-${date.getMonth() < 9 ? '0' : ''}${date.getMonth() + 1}-${date.getDate() < 10 ? '0' : ''}${date.getDate()}`
+}
+
 export function today() {
     const date = new Date()
-    return `${date.getFullYear()}-${date.getMonth() < 9 ? '0' : ''}${date.getMonth() + 1}-${date.getDate()}`
+    return toShortDateStr(date)
 }
 
 export function calculateAccountBalance(account){
@@ -23,17 +27,28 @@ export function calculateAccountBalance(account){
 }
 
 export function calculateAccountBalanceTo(account, to){
-    return formatCents(account.movements.filter(m => new Date(m.date) <= to).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents))
+    return account.movements.filter(m => new Date(m.date) <= to).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents)
 }
 
 export function calculateAccountBalanceFrom(account, from){
-    return formatCents(account.movements.filter(m => new Date(m.date) >= from).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents))
+    return account.movements.filter(m => new Date(m.date) >= from).reduce((accumulator, m) => -m.amountInCents + accumulator, account.startingBalanceInCents)
 }
 
 export function sumIncome(account, from, to){
-    return formatCents(account.movements.filter(m => (m.amountInCents < 0 && new Date(m.date) <= to && new Date(m.date) >= from)).reduce((accumulator, m) => m.amountInCents + accumulator, 0))
+    return account.movements.filter(m => (m.amountInCents < 0 && new Date(m.date) <= to && new Date(m.date) >= from)).reduce((accumulator, m) => m.amountInCents + accumulator, 0)
 }
 
 export function sumExpenses(account, from, to){
-    return formatCents(account.movements.filter(m => (m.amountInCents > 0 && new Date(m.date) <= to && new Date(m.date) >= from)).reduce((accumulator, m) => m.amountInCents + accumulator, 0))
+    return account.movements.filter(m => (m.amountInCents > 0 && new Date(m.date) <= to && new Date(m.date) >= from)).reduce((accumulator, m) => m.amountInCents + accumulator, 0)
+}
+
+
+export function getFirstOfMonth() {
+    const date = new Date()
+    return new Date(date.getFullYear(), date.getMonth(), 1)
+}
+
+export function getLastOfMonth() {
+    const date = new Date()
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0)
 }

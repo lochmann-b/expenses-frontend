@@ -1,29 +1,60 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import BasePage from './BasePage'
-import { calculateAccountBalanceTo, sumExpenses, sumIncome } from '../util'
-import { Typography } from '@material-ui/core';
-
+import { calculateAccountBalanceTo, sumExpenses, sumIncome, formatCents, getFirstOfMonth, getLastOfMonth, toShortDateStr } from '../util'
+import { Typography, TextField } from '@material-ui/core';
+import ExAppBar from './ExAppBar';
+import { withStyles } from '@material-ui/core/styles'
 
 class MovementsInPeriod extends Component {
+
+    state = {
+        from: toShortDateStr(getFirstOfMonth()),
+        to: toShortDateStr(getLastOfMonth())
+    }
+
     render() {
 
-        const { account, from, to } = this.props
+        const { account, classes } = this.props
+
+        const { from, to } = this.state
 
         const balanceStart = calculateAccountBalanceTo(account, from)
-        const income = -sumIncome(account, from, to)
-        const expenses = -sumExpenses(account, from, to)
-
+        const income = -sumIncome(account, new Date(from), new Date(to))
+        const expenses = -sumExpenses(account, new Date(from), new Date(to))
+        const closingBalance = balanceStart + income - expenses
+        console.log('values are', typeof (balanceStart), typeof (income), typeof (expenses), typeof (closingBalance))
         return (
-            <BasePage title={account.name}>
-                <Typography>{`Starting Balance: ${balanceStart}`}</Typography>                
-                <Typography>{` Sum Income: ${income}`}</Typography>                
-                <Typography>{` Sum expenses: ${expenses}`}</Typography>                
-                <Typography>{`Closing Balance: ${balanceStart - expenses + income}`}</Typography>                
+            <BasePage>
+                <ExAppBar title={account.name} />
+
+                <form className={classes.form} noValidate>
+                    <TextField InputLabelProps={{ shrink: true }} margin="normal" type="date" required fullWidth id="from" label="Date From" name="from" value={from} onChange={this.onDateChanged} />
+                    <TextField InputLabelProps={{ shrink: true }} margin="normal" type="date" required fullWidth id="to" label="Date To" name="to" value={to} onChange={this.onDateChanged} />
+                   
+
+                    <Typography>{`Starting Balance: ${formatCents(balanceStart)}`}</Typography>
+                    <Typography>{` Sum Income: ${formatCents(income)}`}</Typography>
+                    <Typography>{` Sum expenses: ${formatCents(expenses)}`}</Typography>
+                    <Typography>{`Closing Balance: ${formatCents(closingBalance)}`}</Typography>
+                </form>
+
+
             </BasePage>
         )
     }
+
+    onDateChanged = e => {
+        this.setState(
+            {
+                [e.target.name]: e.target.value
+            }
+        )
+    }
+
 }
+
+
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -36,10 +67,17 @@ const mapStateToProps = (state, ownProps) => {
     const account = state.accounts.find(acccount => acccount.id === id)
     return {
         account,
-        from: new Date(new Date().getFullYear, new Date().getMonth(), 1, 0, 0, 0, 0),
-        to: new Date(new Date().getFullYear, new Date().getMonth(), 0, 0, 0, 0, 0)
     }
 }
 
+const styles = theme => ({
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        padding: theme.spacing(1)
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(MovementsInPeriod)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MovementsInPeriod))

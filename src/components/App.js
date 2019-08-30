@@ -35,7 +35,7 @@ class App extends React.Component {
                                         <Route exact path='/accounts/:id' component={Account} />}  />
                                         <Route exact path='/accounts/:accountId/editMovement/:id' component={ManageMovement} />}  />
                                         <Route exact path='/accounts/:accountId/addMovement' component={ManageMovement} />}  />
-                                        <Route exact path=' /accounts/:accountId/analyze' component={MovementsInPeriod} />}  />
+                                        <Route exact path='/accounts/:id/analyze' component={MovementsInPeriod} />}  />
                                        
                                         <Route exact path='/signup' component={SignUp} />}  />
                                         <Route component={Component404} />
