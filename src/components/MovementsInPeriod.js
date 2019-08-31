@@ -22,7 +22,8 @@ class MovementsInPeriod extends Component {
         const balanceStart = calculateAccountBalanceTo(account, from)
         const income = -sumIncome(account, new Date(from), new Date(to))
         const expenses = -sumExpenses(account, new Date(from), new Date(to))
-        const closingBalance = balanceStart + income - expenses
+        const closingBalance = balanceStart + income + expenses
+
         console.log('values are', typeof (balanceStart), typeof (income), typeof (expenses), typeof (closingBalance))
         return (
             <BasePage>
