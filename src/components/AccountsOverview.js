@@ -10,7 +10,7 @@ const AccountsOverview = (props) => {
         <Table size='small'>
             <TableHead>
                 <TableRow>
-                    {['Id', 'Name', 'Start Date', 'Starting Balance', 'Balance', 'Edit', 'Delete'].map(title => <TableCell key={title}>{title}</TableCell>)}
+                    {['Name', 'Start Date', 'Starting Balance', 'Balance', 'Edit', 'Delete'].map(title => <TableCell key={title}>{title}</TableCell>)}
                 </TableRow>
             </TableHead>
             <TableBody>

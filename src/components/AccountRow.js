@@ -16,10 +16,7 @@ const AccountRow = props => {
     const { account, onDeleteAccount, history } = props
 
     return (
-        <TableRow key={account.id} size='small'>
-            <TableCell>
-                {account.id}
-            </TableCell>
+        <TableRow key={account.id} size='small'>          
             <TableCell>
                 <Link component={RouterLink} to={`/accounts/${account.id}`}>{account.name}</Link>
             </TableCell>

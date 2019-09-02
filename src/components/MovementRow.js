@@ -15,10 +15,7 @@ const MovementRow = props => {
     const { movement, onDeleteMovement, history } = props
 
     return (
-        <TableRow key={movement.id}>
-            <MakeCell component='th'>
-                {movement.id}
-            </MakeCell>
+        <TableRow key={movement.id}>            
             <MakeCell>
                 {movement.description}
             </MakeCell>
