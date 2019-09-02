@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import BasePage from './BasePage'
 import { calculateAccountBalanceTo, sumExpenses, sumIncome, formatCents, getFirstOfMonth, getLastOfMonth, toShortDateStr } from '../util'
 import { Typography, TextField } from '@material-ui/core';
-import ExAppBar from './ExAppBar';
 import { withStyles } from '@material-ui/core/styles'
 
 class MovementsInPeriod extends Component {
@@ -26,14 +25,10 @@ class MovementsInPeriod extends Component {
 
         console.log('values are', typeof (balanceStart), typeof (income), typeof (expenses), typeof (closingBalance))
         return (
-            <BasePage>
-                <ExAppBar title={account.name} />
-
+            <BasePage title={account.name}>
                 <form className={classes.form} noValidate>
                     <TextField InputLabelProps={{ shrink: true }} margin="normal" type="date" required fullWidth id="from" label="Date From" name="from" value={from} onChange={this.onDateChanged} />
                     <TextField InputLabelProps={{ shrink: true }} margin="normal" type="date" required fullWidth id="to" label="Date To" name="to" value={to} onChange={this.onDateChanged} />
-                   
-
                     <Typography>{`Starting Balance: ${formatCents(balanceStart)}`}</Typography>
                     <Typography>{` Sum Income: ${formatCents(income)}`}</Typography>
                     <Typography>{` Sum expenses: ${formatCents(expenses)}`}</Typography>

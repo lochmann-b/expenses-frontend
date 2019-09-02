@@ -1,31 +1,22 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
-import { logout } from '../actions/authentication'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { Button, IconButton } from '@material-ui/core/';
-import HomeIcon from '@material-ui/icons/Home'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import { IconButton } from '@material-ui/core/';
 import RefreshIcon from '@material-ui/icons/Refresh'
-
-import { withRouter } from 'react-router-dom'
-import { loadAccountsAsync } from '../actions/accounts';
+import MenuIcon from '@material-ui/icons/Menu'
+import { drawerWidth } from './ExDrawer'
 
 const ExAppBar = props => {
   const classes = useStyles()
-  const { title, history, isAuthenticated, onLogout, onRefresh, back, children} = props
-
+  const { title, onRefresh, onToggleDrawer } = props
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
-        <IconButton color="inherit" onClick={() => history.push('/')}><HomeIcon /></IconButton>
-        {children}
-        {back && <IconButton color="inherit" onClick={() => history.push(back)}><ArrowBackIcon /></IconButton>}
+        <IconButton className={classes.menuButton} color="inherit" onClick={onToggleDrawer}><MenuIcon /></IconButton>
         <Typography variant="caption" align="center" className={classes.title}>{title}</Typography>
         <IconButton color="inherit" onClick={onRefresh}><RefreshIcon /></IconButton>
-        {isAuthenticated && <Button color="inherit" onClick={() => { onLogout(); history.push('/') }}>Logout</Button>}
       </Toolbar>
     </AppBar>
   )
@@ -33,30 +24,23 @@ const ExAppBar = props => {
 
 
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
+const useStyles = makeStyles(theme => ({  
   menuButton: {
     marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
   },
+
   title: {
     flexGrow: 1,
   },
+  appBar: {
+    marginLeft: drawerWidth,
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+    },
+  }
 }))
 
-
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.authentication !== ''
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onLogout: () => dispatch(logout()),
-    onRefresh: () => dispatch(loadAccountsAsync())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ExAppBar))
+export default ExAppBar

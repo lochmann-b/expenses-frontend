@@ -7,7 +7,6 @@ import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import { createMovementAsync, updateMovementAsync } from '../actions/movements';
 import { today } from '../util'
-import ExAppBar from './ExAppBar';
 
 
 class ManageMovement extends React.Component {
@@ -75,8 +74,7 @@ class ManageMovement extends React.Component {
         const { date, amount, description } = this.state
         console.log('AccountId', accountId)
         return (
-            <BasePage>
-                <ExAppBar title={movement ? 'Edit Movement' : 'New Movement'} back={`/accounts/${accountId}`}/>                
+            <BasePage title={movement ? 'Edit Movement' : 'New Movement'}>                
                 <form className={classes.form} noValidate>
                     <TextField margin="normal" required fullWidth id="description" label="Description" name="description" autoFocus value={description} onChange={e => this.onDescriptionChanged(e.target.value)} />
                     <TextField InputLabelProps={{ shrink: true }} margin="normal" type="date" required fullWidth id="date" label="Date" name="date" value={date} onChange={e => this.onDateChanged(e.target.value)} />

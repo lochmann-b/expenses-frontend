@@ -3,21 +3,16 @@ import BasePage from './BasePage'
 import { connect } from 'react-redux'
 import MovementsOverview from './MovementsOverview'
 import { makeStyles } from '@material-ui/core/styles'
-import { Fab, IconButton } from '@material-ui/core'
+import { Fab } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { withRouter } from 'react-router-dom'
-import ShowChartIcon from '@material-ui/icons/ShowChart'
-import ExAppBar from './ExAppBar';
 
 const Account = props => {
     const { account, history } = props
     const classes = useStyles()
 
     return (
-        <BasePage>     
-            <ExAppBar title={account.name}> 
-                <IconButton color='inherit' onClick = {() => history.push(`/accounts/${account.id}/analyze`)}><ShowChartIcon /></IconButton>
-            </ExAppBar>    
+        <BasePage title={account.name}>     
             <MovementsOverview movements={account.movements} />
             <Fab onClick={_ => history.push(`/accounts/${account.id}/addMovement`)} className={classes.fab} size="small" color="secondary"><AddIcon /></Fab>
         </BasePage>)

@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField';
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
 import { createAccountAsync, updateAccountAsync } from '../actions/accounts';
-import ExAppBar from './ExAppBar';
 
 class ManageAccount extends React.Component {
 
@@ -65,8 +64,7 @@ class ManageAccount extends React.Component {
         const { classes, account } = this.props
         const { startDate, startingBalance, accountName } = this.state
         return (
-            <BasePage>
-                <ExAppBar title='New Account'/>
+            <BasePage title={account ? 'Update account' : 'New Account'}>
                 <form className={classes.form} noValidate>
                     <TextField margin="normal" required fullWidth id="name" label="Account name" name="name" autoFocus value={accountName} onChange={e => this.onAccountNameChanged(e.target.value)} />
                     <TextField InputLabelProps={{ shrink: true }} margin="normal" type="date" required fullWidth id="date" label="Start Date" name="date" value={startDate} onChange={e => this.onStartDateChanged(e.target.value)} />
