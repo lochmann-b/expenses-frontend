@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import BasePage from './BasePage'
-import { TextField } from '@material-ui/core';
+import { TextField, Link } from '@material-ui/core';
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import { createMovementAsync, updateMovementAsync } from '../actions/movements';
 import { today } from '../util'
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import { Link as RouterLink } from 'react-router-dom'
 
 class ManageMovement extends React.Component {
 
@@ -72,9 +73,14 @@ class ManageMovement extends React.Component {
         const { movement, classes, match } = this.props
         const { accountId } = match.params
         const { date, amount, description } = this.state
-        console.log('AccountId', accountId)
+        
         return (
             <BasePage title={movement ? 'Edit Movement' : 'New Movement'}>                
+
+                <Link to={`/accounts/${accountId}`} component={RouterLink}>
+                    <ArrowBackIcon />
+                </Link>
+
                 <form className={classes.form} noValidate>
                     <TextField margin="normal" required fullWidth id="description" label="Description" name="description" autoFocus value={description} onChange={e => this.onDescriptionChanged(e.target.value)} />
                     <TextField InputLabelProps={{ shrink: true }} margin="normal" type="date" required fullWidth id="date" label="Date" name="date" value={date} onChange={e => this.onDateChanged(e.target.value)} />

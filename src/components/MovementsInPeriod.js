@@ -22,8 +22,7 @@ class MovementsInPeriod extends Component {
         const income = -sumIncome(account, new Date(from), new Date(to))
         const expenses = -sumExpenses(account, new Date(from), new Date(to))
         const closingBalance = balanceStart + income + expenses
-
-        console.log('values are', typeof (balanceStart), typeof (income), typeof (expenses), typeof (closingBalance))
+        
         return (
             <BasePage title={account.name}>
                 <form className={classes.form} noValidate>

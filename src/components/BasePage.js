@@ -5,12 +5,13 @@ import { makeStyles } from '@material-ui/core/styles'
 import Messages from './Messages'
 import ExDrawer from './ExDrawer'
 import ExAppBar from './ExAppBar'
+import { logout } from '../actions/authentication'
 
 import { loadAccountsAsync } from '../actions/accounts'
 
 const BasePage = props => {
     const classes = useStyles()
-    const { children, title, onRefresh } = props
+    const { children, title, onRefresh, accounts, onLogout } = props
     const [mobileOpen, setMobileOpen] = React.useState(false)
 
     function handleDrawerToggle() {
@@ -21,7 +22,7 @@ const BasePage = props => {
         <div className={classes.root}>
             <CssBaseline />
             <ExAppBar title={title} onToggleDrawer={handleDrawerToggle} onRefresh={onRefresh} />
-            <ExDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            <ExDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} accounts={accounts} onLogout={onLogout}/>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Messages />
@@ -43,12 +44,16 @@ const useStyles = makeStyles(theme => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        onRefresh: _ => dispatch(loadAccountsAsync())
+        onRefresh: _ => dispatch(loadAccountsAsync()),
+        onLogout: _ => dispatch(logout())
     }
 }
 
-const mapStateToProps = _ => {
-    return {}
+const mapStateToProps = state => {
+    const { accounts } = state
+    return {
+        accounts
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BasePage)
