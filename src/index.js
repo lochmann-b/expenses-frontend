@@ -8,13 +8,15 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import middleware from './middleware'
+import { MuiThemeProvider } from '@material-ui/core';
+import theme from './util/theme';
 
 const store = createStore(reducer, middleware)
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
-    </Provider>
-
-    , document.getElementById('root'));
+        <MuiThemeProvider theme={theme}>
+            <App />
+        </MuiThemeProvider>    
+    </Provider>, document.getElementById('root'));
 
