@@ -1,32 +1,31 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { formatCents } from '../util'
+import { formatCents, toGermanShortDateStr } from '../util'
 import DeleteIcon from '@material-ui/icons/Delete'
-import EditIcon from '@material-ui/icons/Edit'
-import { TableRow, TableCell, IconButton } from '@material-ui/core';
+import { TableRow, TableCell, IconButton, Link } from '@material-ui/core';
 import { deleteMovementAsync } from '../actions/movements'
 import DeleteDialog from './DeleteDialog'
+import { Link as BrowserLink} from 'react-router-dom'
+
 
 
 const MovementRow = props => {
 
     const [open, setOpen] = React.useState(false);
-    const { movement, onDeleteMovement, history } = props
+    const { movement, onDeleteMovement } = props
 
     return (
         <TableRow key={movement.id}>            
-            <MakeCell>
-                {movement.description}
+            <MakeCell padding='none'>
+                <Link to={`/accounts/${movement.accountId}/editMovement/${movement.id}`} component={BrowserLink}>
+                    {movement.description}
+                </Link>
             </MakeCell>
-            <MakeCell>
-                {movement.date}
+            <MakeCell padding='none'>
+                {toGermanShortDateStr(new Date(movement.date))}
             </MakeCell>
-            <MakeCell align='right'>
+            <MakeCell align='right' padding='none'>
                 {formatCents(movement.amountInCents)}
-            </MakeCell>
-            <MakeCell padding='checkbox' align='center'>
-                <IconButton color='primary' onClick={_ => history.push(`/accounts/${movement.accountId}/editMovement/${movement.id}`)} ><EditIcon fontSize={'small'} /></IconButton>
             </MakeCell>
             <MakeCell padding='checkbox' align='center'>
                 <IconButton color='primary' onClick={_ => setOpen(true)}><DeleteIcon fontSize='small'/></IconButton>
@@ -43,7 +42,7 @@ const MovementRow = props => {
 const MakeCell = props => {
     
     const { children, ...other} = props
-    return (<TableCell size='small' {...other}>{children}</TableCell>)
+    return (<TableCell  size='small' {...other}>{children}</TableCell>)
 }
 
 const mapStateToProps = _ => {
@@ -58,4 +57,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MovementRow))
+export default connect(mapStateToProps, mapDispatchToProps)(MovementRow)

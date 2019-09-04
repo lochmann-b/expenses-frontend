@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, TableHead, TableRow, TableCell, TableBody, TablePagination, TableFooter } from '@material-ui/core';
+import { Table, TableHead, TableRow, TableBody, TablePagination, TableFooter } from '@material-ui/core';
 
 class OverviewTable extends Component {
 
@@ -22,22 +22,22 @@ class OverviewTable extends Component {
     }
 
     render() {
-        const { titles, data, mapItemToRow, rowsPerPageOptions = [5, 10, 25, 50] } = this.props
+        const { titles, data, mapItemToRow, mapTitleToCell, rowsPerPageOptions = [5, 10, 25, 50] } = this.props
         const { rowsPerPage, page } = this.state
         const rows = data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
         return (
             <Table size='small'>
                 <TableHead>
                     <TableRow>
-                        {titles.map(title => <TableCell key={title}>{title}</TableCell>)}
+                        {titles.map( title => mapTitleToCell(title))}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map(item => mapItemToRow(item))}
                 </TableBody>
                 <TableFooter>
-                    <TableRow>
-                        <TablePagination
+                    <TableRow >
+                        <TablePagination                            
                             colSpan={titles.length}
                             rowsPerPageOptions={rowsPerPageOptions}
                             count={data.length}

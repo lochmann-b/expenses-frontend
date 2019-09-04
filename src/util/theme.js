@@ -1,7 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const themeName = 'Wuerth';
-
 export default createMuiTheme({
   breakpoints: {
     values: {
