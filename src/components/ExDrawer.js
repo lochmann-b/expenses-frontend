@@ -16,7 +16,7 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
 
 
-export const drawerWidth = 240;
+export const drawerWidth = 220;
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -53,7 +53,7 @@ function ExDrawer(props) {
       
       <Divider />
       
-      <List>
+      <List dense>
         <ExNavigatorItem to={'Home'} onNavigate={_ => navigate('/')}>
           <HomeIcon />
         </ExNavigatorItem>
@@ -67,11 +67,11 @@ function ExDrawer(props) {
       {accounts.map(account => (
         <React.Fragment key={account.id}>
           <Divider />
-          <List>
+          <List dense>
             <ExNavigatorItem to={account.name} onNavigate={_ => navigate(`/accounts/${account.id}`)}>
               <AccountBalanceIcon />
             </ExNavigatorItem>
-            <List component="div" disablePadding>
+            <List dense component="div" disablePadding>
               <ExNavigatorItem className={classes.nested} to='Add Movement' onNavigate={_ => navigate(`/accounts/${account.id}/addMovement`)}>
                 <PaymentIcon />
               </ExNavigatorItem>
@@ -95,7 +95,7 @@ function ExDrawer(props) {
   return (
     <nav className={classes.drawer}>
       {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-      <Hidden smUp implementation="css">
+      <Hidden smUp>
         <Drawer
           container={container}
           variant="temporary"
@@ -112,7 +112,7 @@ function ExDrawer(props) {
           {drawer}
         </Drawer>
       </Hidden>
-      <Hidden xsDown implementation="css">
+      <Hidden xsDown>
         <Drawer
           classes={{
             paper: classes.drawerPaper,

@@ -17,6 +17,14 @@ export function toShortDateStr(date) {
     return `${date.getFullYear()}-${date.getMonth() < 9 ? '0' : ''}${date.getMonth() + 1}-${date.getDate() < 10 ? '0' : ''}${date.getDate()}`
 }
 
+export function toGermanShortDateStr(date) {
+    const year = date.getFullYear().toString().substr(-2)
+    const day = `${date.getDate() < 10 ? '0' : ''}${date.getDate()}`
+    const month = `${date.getMonth() < 9 ? '0' : ''}${date.getMonth() + 1}`
+    return `${day}.${month} '${year}`
+}
+
+
 export function today() {
     const date = new Date()
     return toShortDateStr(date)

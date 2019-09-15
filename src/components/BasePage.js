@@ -22,7 +22,7 @@ const BasePage = props => {
         <div className={classes.root}>
             <CssBaseline />
             <ExAppBar title={title} onToggleDrawer={handleDrawerToggle} onRefresh={onRefresh} />
-            <ExDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} accounts={accounts} onLogout={onLogout}/>
+            <ExDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} accounts={accounts} onLogout={onLogout} />
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Messages />
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(1),
     },
 }));
 
