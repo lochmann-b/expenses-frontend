@@ -19,8 +19,8 @@ class MovementsInPeriod extends Component {
         const { from, to } = this.state
 
         const balanceStart = calculateAccountBalanceTo(account, from)
-        const income = -sumIncome(account, new Date(from), new Date(to))
-        const expenses = -sumExpenses(account, new Date(from), new Date(to))
+        const income = sumIncome(account, new Date(from), new Date(to))
+        const expenses = sumExpenses(account, new Date(from), new Date(to))
         const closingBalance = balanceStart + income + expenses
         
         return (
