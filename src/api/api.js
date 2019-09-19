@@ -1,4 +1,4 @@
-export const URL_ENDPOINT = 'https://bl-exp-backend.herokuapp.com/api'
+export const URL_ENDPOINT = 'https://moneybunny-backend.herokuapp.com/'
 
 export function _signup(token, user){
     return doFetch(
